@@ -6,7 +6,11 @@ import * as passport from 'passport';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS;
+const allowedOrigins = [
+  'http://localhost:3000/',
+  'http://localhost:3001/',
+  'http://localhost:5173/',
+];
 console.log(allowedOrigins);
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -45,13 +49,13 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || ' ',
+      secret: ' topsecret ',
       resave: false,
       saveUninitialized: false,
       cookie: {
         maxAge: 3600000,
         httpOnly: true,
-        secure: process.env.NODE_ENV == 'production',
+        secure: true,
         sameSite: 'none',
       },
     }),
